@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaam Stack AI — Chat</title>
+<script>
+  (function(){
+    var t = localStorage.getItem('shai-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Syne', 'sans-serif'],
+          body: ['DM Sans', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+/* ═══════════════════════════════════════
+   THEME VARIABLES — Exact match to AI Stack Hub
+═══════════════════════════════════════ */
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* DARK THEME — Deep space #020208 with cyan/violet */
+[data-theme="dark"] {
+  --void: #020208;
+  --deep: #06060f;
+  --surface: #0d0d1a;
+  --panel: #111122;
+  --panel2: #161628;
+  --border: rgba(255,255,255,0.06);
+  --border-hi: rgba(255,255,255,0.12);
+  --border-glow: rgba(99,179,255,0.25);
+  --cyan: #4af0ff;
+  --blue: #5b8fff;
+  --violet: #a259ff;
+  --pink: #ff4da6;
+  --lime: #a3ff57;
+  --amber: #ffbd2f;
+  --text: #f0eeff;
+  --text2: #b8b4d0;
+  --muted: #5a5775;
+  --muted2: #3d3a55;
+  --bg-input: rgba(13,13,26,0.9);
+  --bg-msg-ai: rgba(13,13,26,0.85);
+  --bg-msg-user: linear-gradient(135deg, #4af0ff22, #5b8fff22);
+  --bg-card: rgba(17,17,34,0.9);
+  --shadow-glow: 0 0 24px rgba(74,240,255,0.12);
+  --user-bubble: linear-gradient(135deg, #4af0ff, #5b8fff);
+  --user-text: #000;
+}
+
+/* LIGHT THEME — Warm cream #f5efe6 with amber/blue */
+[data-theme="light"] {
+  --void: #f5efe6;
+  --deep: #ede5d8;
+  --surface: #faf6f0;
+  --panel: #f0e9de;
+  --panel2: #e8dfd3;
+  --border: rgba(100,80,60,0.1);
+  --border-hi: rgba(100,80,60,0.18);
+  --border-glow: rgba(180,100,30,0.3);
+  --cyan: #b85c00;
+  --blue: #1d6fa4;
+  --violet: #6b21a8;
+  --pink: #be185d;
+  --lime: #166534;
+  --amber: #92400e;
+  --text: #1c1208;
+  --text2: #3d2f1e;
+  --muted: #7a6048;
+  --muted2: #a8917a;
+  --bg-input: rgba(250,246,240,0.95);
+  --bg-msg-ai: rgba(250,246,240,0.9);
+  --bg-msg-user: linear-gradient(135deg, rgba(184,92,0,0.08), rgba(29,111,164,0.08));
+  --bg-card: rgba(250,246,240,0.95);
+  --shadow-glow: 0 4px 20px rgba(100,70,30,0.12);
+  --user-bubble: #1c1208;
+  --user-text: #f5efe6;
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL
+═══════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+body {
+  background: var(--void);
+  color: var(--text);
+}
+
+/* Noise texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+/* Aurora background — dark only */
+[data-theme="dark"] body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(74,240,255,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(162,89,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 40%, rgba(255,77,166,0.03) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+[data-theme="light"] body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 10%, rgba(196,147,100,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(43,78,189,0.06) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(74,240,255,0.2); border-radius: 99px; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: rgba(184,92,0,0.25); border-radius: 99px; }
+
+/* ═══════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════ */
+.app-shell {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  height: 100vh; width: 100%;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--border-hi);
+  flex-shrink: 0;
+}
+[data-theme="dark"] .site-header { background: rgba(2,2,8,0.82); }
+[data-theme="light"] .site-header { background: rgba(245,239,230,0.88); }
+
+.header-inner {
+  width: 100%;
+  padding: 0 16px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+}
+@media (min-width: 640px) { .header-inner { padding: 0 24px; } }
+
+.logo-group { display: flex; align-items: center; gap: 10px; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 14px; color: #000;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .logo-mark {
+  background: linear-gradient(135deg, #4af0ff, #5b8fff);
+  box-shadow: 0 0 18px rgba(74,240,255,0.35);
+}
+[data-theme="light"] .logo-mark {
+  background: linear-gradient(135deg, #b85c00, #1d6fa4);
+  color: #fff;
+}
+.logo-text {
+  font-family: var(--font-display); font-weight: 700; font-size: 16px;
+  color: var(--text); letter-spacing: -0.01em;
+}
+[data-theme="dark"] .logo-text span { color: #4af0ff; }
+[data-theme="light"] .logo-text span { color: #b85c00; }
+
+.header-center {
+  display: none;
+  flex-direction: column; align-items: center; text-align: center;
+}
+@media (min-width: 600px) { .header-center { display: flex; } }
+.header-title {
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.01em;
+}
+.header-sub {
+  font-size: 11px; color: var(--muted); font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.header-actions { display: flex; align-items: center; gap: 8px; }
+
+/* Theme Toggle */
+.theme-toggle {
+  position: relative; width: 52px; height: 28px;
+  background: transparent;
+  border: 1px solid var(--border-hi);
+  border-radius: 100px; cursor: pointer; padding: 0;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .theme-toggle { background: rgba(255,255,255,0.04); }
+[data-theme="dark"] .theme-toggle:hover { border-color: var(--border-glow); box-shadow: 0 0 12px rgba(74,240,255,0.12); }
+[data-theme="light"] .theme-toggle { background: rgba(184,92,0,0.05); border-color: rgba(184,92,0,0.25); }
+[data-theme="light"] .theme-toggle:hover { box-shadow: 0 0 10px rgba(184,92,0,0.15); }
+.toggle-track { display: block; width: 100%; height: 100%; position: relative; }
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px;
+  width: 20px; height: 20px; border-radius: 50%;
+  display: grid; place-items: center;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), background 0.3s, box-shadow 0.3s;
+}
+[data-theme="dark"] .toggle-thumb {
+  background: linear-gradient(135deg, #4af0ff, #5b8fff);
+  box-shadow: 0 2px 8px rgba(74,240,255,0.4); color: #000;
+}
+[data-theme="light"] .toggle-thumb {
+  transform: translateX(24px);
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  box-shadow: 0 2px 8px rgba(245,158,11,0.5); color: #fff;
+}
+.t-icon { position: absolute; transition: opacity 0.2s; font-size: 11px; }
+.t-moon { opacity: 1; }
+.t-sun  { opacity: 0; }
+[data-theme="light"] .t-moon { opacity: 0; }
+[data-theme="light"] .t-sun  { opacity: 1; }
+
+/* New chat button */
+.btn-new-chat {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 9px;
+  font-family: var(--font-display); font-weight: 700; font-size: 12px;
+  border: 1px solid var(--border-hi); cursor: pointer;
+  transition: all 0.2s; white-space: nowrap; color: var(--text2);
+}
+[data-theme="dark"] .btn-new-chat { background: rgba(255,255,255,0.04); }
+[data-theme="dark"] .btn-new-chat:hover { border-color: rgba(74,240,255,0.3); color: #4af0ff; background: rgba(74,240,255,0.06); }
+[data-theme="light"] .btn-new-chat { background: rgba(0,0,0,0.03); }
+[data-theme="light"] .btn-new-chat:hover { border-color: rgba(184,92,0,0.3); color: #b85c00; background: rgba(184,92,0,0.05); }
+
+/* ═══════════════════════════════════════
+   CHAT AREA
+═══════════════════════════════════════ */
+.chat-area {
+  flex: 1; overflow-y: auto;
+  scroll-behavior: smooth;
+  position: relative; z-index: 1;
+}
+.chat-inner {
+  max-width: 900px; margin: 0 auto;
+  padding: 24px 16px 16px;
+  display: flex; flex-direction: column; gap: 20px;
+  min-height: 100%;
+}
+@media (min-width: 640px) { .chat-inner { padding: 32px 24px 24px; } }
+
+/* Welcome screen */
+.welcome-screen {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  padding: 40px 16px; gap: 20px;
+  flex: 1; min-height: calc(100vh - 200px);
+}
+.welcome-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px 5px 6px; border-radius: 100px;
+  border: 1px solid var(--border-hi);
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--cyan); letter-spacing: 0.06em;
+}
+[data-theme="dark"] .welcome-badge { background: rgba(74,240,255,0.06); }
+[data-theme="light"] .welcome-badge { background: rgba(184,92,0,0.06); }
+.welcome-pill {
+  padding: 2px 8px; border-radius: 100px;
+  font-weight: 700; font-size: 10px; letter-spacing: 0.05em; color: #000;
+}
+[data-theme="dark"] .welcome-pill { background: #4af0ff; }
+[data-theme="light"] .welcome-pill { background: #b85c00; color: #fff; }
+.welcome-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.6); } }
+
+.welcome-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; color: var(--text);
+}
+[data-theme="dark"] .welcome-title .w-accent {
+  background: linear-gradient(90deg, #4af0ff, #5b8fff, #a259ff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+[data-theme="light"] .welcome-title .w-accent {
+  background: linear-gradient(90deg, #b85c00, #6b21a8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.welcome-sub {
+  font-size: 14px; color: var(--muted);
+  max-width: 420px; line-height: 1.6;
+  font-family: var(--font-mono);
+}
+
+/* Prompt suggestions */
+.suggestions-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; width: 100%; max-width: 560px;
+  margin-top: 8px;
+}
+@media (max-width: 480px) { .suggestions-grid { grid-template-columns: 1fr; } }
+.suggestion-card {
+  padding: 14px 16px; border-radius: 14px;
+  border: 1px solid var(--border-hi); cursor: pointer;
+  text-align: left; transition: all 0.2s; background: transparent;
+}
+[data-theme="dark"] .suggestion-card { background: rgba(13,13,26,0.7); }
+[data-theme="dark"] .suggestion-card:hover { border-color: rgba(74,240,255,0.3); background: rgba(74,240,255,0.05); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(74,240,255,0.06); }
+[data-theme="light"] .suggestion-card { background: rgba(250,246,240,0.8); }
+[data-theme="light"] .suggestion-card:hover { border-color: rgba(184,92,0,0.3); background: rgba(184,92,0,0.04); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(100,70,30,0.1); }
+.suggestion-icon { font-size: 18px; margin-bottom: 6px; }
+.suggestion-text {
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+  font-family: var(--font-body); font-weight: 500;
+}
+.suggestion-label {
+  font-size: 10px; color: var(--muted);
+  font-family: var(--font-mono); margin-top: 4px; letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════
+   MESSAGE BUBBLES
+═══════════════════════════════════════ */
+.msg-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  animation: msg-fade-in 0.4s cubic-bezier(0.22,0.68,0,1) both;
+}
+@keyframes msg-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* AI message */
+.msg-row.ai { justify-content: flex-start; }
+.msg-avatar {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 12px; color: #000;
+}
+[data-theme="dark"] .msg-avatar { background: linear-gradient(135deg, #4af0ff, #5b8fff); box-shadow: 0 0 12px rgba(74,240,255,0.3); }
+[data-theme="light"] .msg-avatar { background: linear-gradient(135deg, #b85c00, #1d6fa4); color: #fff; }
+
+.msg-bubble {
+  max-width: min(80%, 640px);
+  border-radius: 16px; padding: 14px 18px;
+  border: 1px solid var(--border-hi);
+  font-size: 14px; line-height: 1.7; color: var(--text);
+  font-family: var(--font-body);
+}
+.msg-row.ai .msg-bubble {
+  border-radius: 4px 16px 16px 16px;
+}
+[data-theme="dark"] .msg-row.ai .msg-bubble {
+  background: rgba(13,13,26,0.85);
+  backdrop-filter: blur(12px);
+}
+[data-theme="light"] .msg-row.ai .msg-bubble {
+  background: rgba(250,246,240,0.92);
+  box-shadow: 0 2px 12px rgba(100,70,30,0.08);
+}
+
+/* User message */
+.msg-row.user { justify-content: flex-end; }
+.msg-row.user .msg-bubble {
+  border-radius: 16px 4px 16px 16px;
+  border: none;
+  font-weight: 500;
+}
+[data-theme="dark"] .msg-row.user .msg-bubble {
+  background: linear-gradient(135deg, #4af0ff, #5b8fff);
+  color: #000;
+}
+[data-theme="light"] .msg-row.user .msg-bubble {
+  background: #1c1208;
+  color: #f5efe6;
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex; align-items: center; gap: 5px;
+  padding: 14px 18px; border-radius: 4px 16px 16px 16px;
+  border: 1px solid var(--border-hi); width: fit-content;
+}
+[data-theme="dark"] .typing-indicator { background: rgba(13,13,26,0.85); }
+[data-theme="light"] .typing-indicator { background: rgba(250,246,240,0.92); }
+.typing-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+[data-theme="dark"] .typing-dot { background: #4af0ff; }
+[data-theme="light"] .typing-dot { background: #b85c00; }
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing-bounce {
+  0%,60%,100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════
+   STACK RESPONSE CARDS
+═══════════════════════════════════════ */
+.stack-response { display: flex; flex-direction: column; gap: 16px; }
+
+.stack-heading {
+  font-family: var(--font-display); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--cyan); display: flex; align-items: center; gap: 8px;
+}
+.stack-heading::before { content: '//'; opacity: 0.5; }
+.stack-heading::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hi), transparent); }
+
+.stack-intro {
+  font-size: 14px; line-height: 1.7; color: var(--text2);
+  font-family: var(--font-mono);
+}
+
+.stack-section { display: flex; flex-direction: column; gap: 8px; }
+.stack-section-label {
+  font-size: 10px; font-weight: 700; font-family: var(--font-mono);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); padding-left: 2px;
+}
+
+.cards-row {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+
+.tool-card {
+  border-radius: 14px; padding: 14px 16px;
+  border: 1px solid var(--border-hi);
+  display: flex; flex-direction: column; gap: 8px;
+  min-width: 160px; flex: 1; max-width: 220px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.22,.68,0,1.2), border-color 0.2s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+}
+[data-theme="dark"] .tool-card { background: rgba(17,17,34,0.9); }
+[data-theme="dark"] .tool-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--card-accent, rgba(74,240,255,0.4));
+  box-shadow: 0 12px 32px rgba(74,240,255,0.08), 0 0 0 1px rgba(255,255,255,0.03);
+}
+[data-theme="light"] .tool-card { background: rgba(250,246,240,0.95); box-shadow: 0 2px 8px rgba(100,70,30,0.06); }
+[data-theme="light"] .tool-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 32px rgba(100,70,30,0.14); border-color: rgba(184,92,0,0.3); }
+.tool-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, var(--cyan)), transparent);
+  opacity: 0; transition: opacity 0.2s;
+}
+.tool-card:hover::before { opacity: 1; }
+
+.card-icon-row { display: flex; align-items: center; justify-content: space-between; }
+.card-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.card-tag {
+  font-size: 9px; font-weight: 700; font-family: var(--font-mono);
+  padding: 2px 8px; border-radius: 100px; letter-spacing: 0.06em;
+}
+.tag-free {
+  background: rgba(163,255,87,0.12); color: #a3ff57;
+  border: 1px solid rgba(163,255,87,0.25);
+}
+[data-theme="light"] .tag-free { background: rgba(22,101,52,0.1); color: #166534; border-color: rgba(22,101,52,0.2); }
+.tag-paid {
+  background: rgba(255,189,47,0.12); color: #ffbd2f;
+  border: 1px solid rgba(255,189,47,0.25);
+}
+[data-theme="light"] .tag-paid { background: rgba(146,64,14,0.1); color: #92400e; border-color: rgba(146,64,14,0.2); }
+.tag-freemium {
+  background: rgba(162,89,255,0.12); color: #a259ff;
+  border: 1px solid rgba(162,89,255,0.25);
+}
+[data-theme="light"] .tag-freemium { background: rgba(107,33,168,0.1); color: #6b21a8; border-color: rgba(107,33,168,0.2); }
+
+.card-name {
+  font-family: var(--font-display); font-size: 15px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.02em;
+}
+.card-desc {
+  font-size: 11px; color: var(--text2); line-height: 1.5;
+  font-family: var(--font-body);
+}
+.card-rating {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-family: var(--font-mono);
+}
+[data-theme="dark"] .card-stars { color: #ffbd2f; }
+[data-theme="light"] .card-stars { color: #d97706; }
+.card-rating-num { color: var(--text2); font-weight: 600; }
+
+/* ═══════════════════════════════════════
+   INPUT BAR
+═══════════════════════════════════════ */
+.input-bar-wrapper {
+  flex-shrink: 0; position: relative; z-index: 10;
+  border-top: 1px solid var(--border-hi);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+[data-theme="dark"] .input-bar-wrapper { background: rgba(2,2,8,0.88); }
+[data-theme="light"] .input-bar-wrapper { background: rgba(245,239,230,0.92); }
+
+.input-bar-inner {
+  max-width: 900px; margin: 0 auto;
+  padding: 12px 16px 16px;
+}
+@media (min-width: 640px) { .input-bar-inner { padding: 14px 24px 20px; } }
+
+.input-container {
+  display: flex; align-items: center; gap: 8px;
+  border-radius: 16px; padding: 6px 6px 6px 16px;
+  border: 1px solid var(--border-hi);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+[data-theme="dark"] .input-container { background: rgba(13,13,26,0.9); }
+[data-theme="light"] .input-container { background: rgba(250,246,240,0.95); box-shadow: 0 2px 12px rgba(100,70,30,0.08); }
+.input-container:focus-within {
+  border-color: var(--border-glow);
+}
+[data-theme="dark"] .input-container:focus-within { box-shadow: 0 0 0 3px rgba(74,240,255,0.08), 0 0 20px rgba(74,240,255,0.06); }
+[data-theme="light"] .input-container:focus-within { box-shadow: 0 0 0 3px rgba(184,92,0,0.1); }
+
+#chat-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: var(--font-body); font-size: 14px; color: var(--text);
+  resize: none; max-height: 120px; line-height: 1.5;
+  padding: 6px 0;
+}
+#chat-input::placeholder { color: var(--muted); }
+
+.input-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+.btn-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-hi); cursor: pointer;
+  transition: all 0.2s; font-size: 15px;
+  background: transparent; color: var(--muted2);
+}
+[data-theme="dark"] .btn-icon:hover { border-color: rgba(74,240,255,0.3); color: #4af0ff; background: rgba(74,240,255,0.06); }
+[data-theme="light"] .btn-icon:hover { border-color: rgba(184,92,0,0.3); color: #b85c00; background: rgba(184,92,0,0.06); }
+
+.btn-send {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; font-size: 16px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .btn-send {
+  background: linear-gradient(135deg, #4af0ff, #5b8fff); color: #000;
+  box-shadow: 0 0 18px rgba(74,240,255,0.25);
+}
+[data-theme="dark"] .btn-send:hover { transform: translateY(-1px); box-shadow: 0 0 28px rgba(74,240,255,0.4); }
+[data-theme="light"] .btn-send { background: #1c1208; color: #f5efe6; }
+[data-theme="light"] .btn-send:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(28,18,8,0.25); }
+
+.input-hint {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 8px; font-size: 10px; color: var(--muted);
+  font-family: var(--font-mono); letter-spacing: 0.04em;
+}
+.hint-key {
+  padding: 1px 6px; border-radius: 4px;
+  border: 1px solid var(--border-hi); font-size: 9px;
+  background: var(--border);
+}
+
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE TWEAKS
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .tool-card { min-width: 140px; max-width: 100%; flex: 1 1 calc(50% - 5px); }
+  .cards-row { gap: 8px; }
+  .msg-bubble { max-width: 88%; font-size: 13px; padding: 12px 14px; }
+  .welcome-title { font-size: clamp(22px, 7vw, 36px); }
+  .btn-new-chat .btn-label { display: none; }
+}
+@media (max-width: 360px) {
+  .tool-card { flex: 1 1 100%; }
+}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════ */
+.fade-in { animation: fadeIn 0.3s ease both; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+/* Glow pulse on send */
+@keyframes send-glow {
+  0%  { box-shadow: 0 0 18px rgba(74,240,255,0.25); }
+  50% { box-shadow: 0 0 40px rgba(74,240,255,0.55); }
+  100%{ box-shadow: 0 0 18px rgba(74,240,255,0.25); }
+}
+.sending { animation: send-glow 0.6s ease; }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <!-- Logo -->
+      <div class="logo-group">
+        <div class="logo-mark">S</div>
+        <span class="logo-text">Shaam Stack <span>AI</span></span>
+      </div>
+
+      <!-- Center title -->
+      <div class="header-center">
+        <div class="header-title">AI Stack Advisor</div>
+        <div class="header-sub">Describe your project · Get your perfect stack</div>
+      </div>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <span class="toggle-track">
+            <span class="toggle-thumb">
+              <span class="t-icon t-moon">🌙</span>
+              <span class="t-icon t-sun">☀️</span>
+            </span>
+          </span>
+        </button>
+        <div class="px-4 py-4 flex flex-col gap-3 border-t mobile-link-border">
+            <a href="/ai_tools/" class="mobile-link-text font-body py-2 border-b mobile-link-border">Back</a>
+        </div>
+        <!-- New Chat -->
+        <button class="btn-new-chat" onclick="clearChat()" title="New Chat">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="btn-label">New Chat</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ CHAT AREA ═══ -->
+  <main class="chat-area" id="chatArea">
+    <div class="chat-inner" id="chatInner">
+
+      <!-- WELCOME SCREEN -->
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-badge">
+          <span class="welcome-pill">NEW</span>
+          <div class="welcome-pulse"></div>
+          500+ AI Tools Indexed · Updated Daily
+        </div>
+
+        <h1 class="welcome-title">
+          Discover the Best<br>
+          <span class="w-accent">AI Tools</span><br>
+          for Your Projects
+        </h1>
+
+        <p class="welcome-sub">
+          Compare, evaluate, and generate production-ready AI stacks.<br>
+          Stop researching. Start shipping.
+        </p>
+
+        <div class="suggestions-grid">
+          <button class="suggestion-card" onclick="sendSuggestion('Build a SaaS dashboard with AI analytics')">
+            <div class="suggestion-icon">📊</div>
+            <div class="suggestion-text">SaaS dashboard with AI analytics</div>
+            <div class="suggestion-label">Full stack · AI</div>
+          </button>
+          <button class="suggestion-card" onclick="sendSuggestion('Create a mobile app with real-time AI features')">
+            <div class="suggestion-icon">📱</div>
+            <div class="suggestion-text">Mobile app with real-time AI</div>
+            <div class="suggestion-label">Mobile · AI</div>
+          </button>
+          <button class="suggestion-card" onclick="sendSuggestion('Build an e-commerce store with AI recommendations')">
+            <div class="suggestion-icon">🛒</div>
+            <div class="suggestion-text">E-commerce with AI recommendations</div>
+            <div class="suggestion-label">E-comm · ML</div>
+          </button>
+          <button class="suggestion-card" onclick="sendSuggestion('Create an AI chatbot for customer support')">
+            <div class="suggestion-icon">🤖</div>
+            <div class="suggestion-text">AI chatbot for customer support</div>
+            <div class="suggestion-label">NLP · Chatbot</div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══ INPUT BAR ═══ -->
+  <div class="input-bar-wrapper">
+    <div class="input-bar-inner">
+      <div class="input-container">
+        <textarea
+          id="chat-input"
+          placeholder="Describe your project — get your perfect AI stack..."
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <div class="input-actions">
+          <button class="btn-icon" title="Voice input" onclick="showMicFeedback(this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+          <button class="btn-send" id="sendBtn" onclick="sendMessage()" title="Send (Enter)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="input-hint">
+        <span class="hint-key">Enter</span> to send
+        <span style="opacity:0.4">·</span>
+        <span class="hint-key">Shift+Enter</span> for new line
+      </div>
+    </div>
+  </div>
+
+</div><!-- end app-shell -->
+
+<script>
+/* ═══════════════════════════════════════
+   THEME
+═══════════════════════════════════════ */
+(function() {
+  const saved = localStorage.getItem('shai-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('shai-theme', next);
+}
+
+/* ═══════════════════════════════════════
+   STACK DATA
+═══════════════════════════════════════ */
+const stackDatabase = {
+  saas: {
+    intro: "Here's your production-ready SaaS stack. Optimized for scalability, developer experience, and AI integration.",
+    sections: [
+      { label: "Frontend", cards: [
+        { name: "Next.js", desc: "React framework with SSR, routing & API routes built-in", icon: "⚡", rating: "4.9", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Tailwind CSS", desc: "Utility-first CSS for rapid, responsive UI development", icon: "🎨", rating: "4.8", tag: "free", accent: "rgba(56,189,248,0.5)" },
+        { name: "Framer Motion", desc: "Production-grade animations and micro-interactions", icon: "✨", rating: "4.7", tag: "freemium", accent: "rgba(162,89,255,0.5)" }
+      ]},
+      { label: "Backend & AI", cards: [
+        { name: "Node.js", desc: "Fast, scalable server runtime for APIs and microservices", icon: "🟩", rating: "4.9", tag: "free", accent: "rgba(163,255,87,0.5)" },
+        { name: "OpenAI API", desc: "GPT-4o, embeddings, and vision for intelligent features", icon: "🤖", rating: "4.8", tag: "paid", accent: "rgba(255,189,47,0.5)" },
+        { name: "LangChain", desc: "Build LLM chains, agents, and RAG pipelines easily", icon: "🔗", rating: "4.6", tag: "free", accent: "rgba(74,240,255,0.5)" }
+      ]},
+      { label: "Database & Infra", cards: [
+        { name: "Supabase", desc: "PostgreSQL with auth, storage, real-time subscriptions", icon: "🗄️", rating: "4.8", tag: "freemium", accent: "rgba(52,211,153,0.5)" },
+        { name: "Vercel", desc: "Edge-optimized deployment with CI/CD and analytics", icon: "▲", rating: "4.9", tag: "freemium", accent: "rgba(255,255,255,0.4)" },
+        { name: "Redis", desc: "In-memory caching for sessions and real-time features", icon: "🔴", rating: "4.7", tag: "freemium", accent: "rgba(255,77,77,0.5)" }
+      ]}
+    ]
+  },
+  mobile: {
+    intro: "The ultimate React Native stack for AI-powered mobile apps — cross-platform, performant, and production-ready.",
+    sections: [
+      { label: "Framework", cards: [
+        { name: "React Native", desc: "Cross-platform iOS & Android with native performance", icon: "📱", rating: "4.8", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Expo", desc: "Managed workflow with OTA updates and device APIs", icon: "🚀", rating: "4.7", tag: "freemium", accent: "rgba(162,89,255,0.5)" }
+      ]},
+      { label: "Backend & AI", cards: [
+        { name: "Firebase", desc: "Real-time database, auth, push notifications built-in", icon: "🔥", rating: "4.7", tag: "freemium", accent: "rgba(255,189,47,0.5)" },
+        { name: "Claude API", desc: "Anthropic's frontier model for intelligent mobile features", icon: "⚡", rating: "4.9", tag: "paid", accent: "rgba(255,122,47,0.5)" }
+      ]},
+      { label: "Database", cards: [
+        { name: "Firestore", desc: "NoSQL real-time database with offline support", icon: "📊", rating: "4.6", tag: "freemium", accent: "rgba(255,189,47,0.4)" },
+        { name: "AsyncStorage", desc: "Simple key-value local storage for mobile apps", icon: "💾", rating: "4.5", tag: "free", accent: "rgba(163,255,87,0.4)" }
+      ]}
+    ]
+  },
+  ecommerce: {
+    intro: "A blazing-fast e-commerce stack with AI-powered personalization, recommendations, and smart search.",
+    sections: [
+      { label: "Frontend", cards: [
+        { name: "Next.js 14", desc: "App router, server components, and edge rendering", icon: "⚡", rating: "4.9", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Shopify SDK", desc: "Headless storefront with inventory & checkout APIs", icon: "🛒", rating: "4.7", tag: "paid", accent: "rgba(163,255,87,0.5)" }
+      ]},
+      { label: "AI Layer", cards: [
+        { name: "Pinecone", desc: "Vector search for AI-powered product recommendations", icon: "🧠", rating: "4.7", tag: "freemium", accent: "rgba(244,114,182,0.5)" },
+        { name: "OpenAI", desc: "Product descriptions, search & personalization engine", icon: "🤖", rating: "4.8", tag: "paid", accent: "rgba(255,189,47,0.5)" }
+      ]},
+      { label: "Backend", cards: [
+        { name: "Stripe", desc: "Payments, subscriptions, invoicing & fraud detection", icon: "💳", rating: "4.9", tag: "paid", accent: "rgba(99,102,241,0.5)" },
+        { name: "PostgreSQL", desc: "Reliable relational DB for orders, users, products", icon: "🐘", rating: "4.8", tag: "free", accent: "rgba(74,240,255,0.4)" }
+      ]}
+    ]
+  },
+  chatbot: {
+    intro: "Production-ready AI chatbot stack with memory, multi-turn conversations, and real-time streaming.",
+    sections: [
+      { label: "AI Core", cards: [
+        { name: "GPT-4o", desc: "OpenAI's flagship model for intelligent conversations", icon: "🤖", rating: "4.9", tag: "paid", accent: "rgba(255,189,47,0.5)" },
+        { name: "LangChain", desc: "Chains, memory, agents, and tool-use orchestration", icon: "🔗", rating: "4.7", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Pinecone", desc: "Vector DB for long-term conversation memory & RAG", icon: "🧠", rating: "4.7", tag: "freemium", accent: "rgba(244,114,182,0.5)" }
+      ]},
+      { label: "Frontend", cards: [
+        { name: "React", desc: "Component-based UI with real-time streaming support", icon: "⚛️", rating: "4.9", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Socket.io", desc: "WebSocket streaming for real-time AI response tokens", icon: "⚡", rating: "4.7", tag: "free", accent: "rgba(163,255,87,0.5)" }
+      ]},
+      { label: "Backend", cards: [
+        { name: "FastAPI", desc: "Async Python API with built-in streaming & OpenAPI", icon: "🐍", rating: "4.8", tag: "free", accent: "rgba(52,211,153,0.5)" },
+        { name: "Redis", desc: "Session management and conversation cache", icon: "🔴", rating: "4.7", tag: "freemium", accent: "rgba(255,77,77,0.5)" }
+      ]}
+    ]
+  },
+  default: {
+    intro: "Based on your requirements, here's a versatile full-stack AI stack that covers all the essentials:",
+    sections: [
+      { label: "Frontend", cards: [
+        { name: "Next.js", desc: "The React framework for production — SSR, routing, APIs", icon: "⚡", rating: "4.9", tag: "free", accent: "rgba(74,240,255,0.5)" },
+        { name: "Tailwind CSS", desc: "Utility-first responsive design system", icon: "🎨", rating: "4.8", tag: "free", accent: "rgba(56,189,248,0.5)" }
+      ]},
+      { label: "AI Integration", cards: [
+        { name: "OpenAI API", desc: "GPT-4o for intelligent, context-aware features", icon: "🤖", rating: "4.8", tag: "paid", accent: "rgba(255,189,47,0.5)" },
+        { name: "LangChain", desc: "Orchestrate LLM workflows, agents, and RAG pipelines", icon: "🔗", rating: "4.6", tag: "free", accent: "rgba(74,240,255,0.5)" }
+      ]},
+      { label: "Backend & Database", cards: [
+        { name: "Supabase", desc: "Open source Firebase alternative with PostgreSQL", icon: "🗄️", rating: "4.8", tag: "freemium", accent: "rgba(52,211,153,0.5)" },
+        { name: "Vercel", desc: "Zero-config deployment with global edge network", icon: "▲", rating: "4.9", tag: "freemium", accent: "rgba(255,255,255,0.4)" }
+      ]}
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════
+   CHAT STATE
+═══════════════════════════════════════ */
+let isTyping = false;
+let messageCount = 0;
+
+function detectStackType(message) {
+  const msg = message.toLowerCase();
+  if (msg.includes('saas') || msg.includes('dashboard') || msg.includes('analytics')) return 'saas';
+  if (msg.includes('mobile') || msg.includes('app') || msg.includes('ios') || msg.includes('android')) return 'mobile';
+  if (msg.includes('ecommerce') || msg.includes('e-commerce') || msg.includes('shop') || msg.includes('store')) return 'ecommerce';
+  if (msg.includes('chatbot') || msg.includes('chat') || msg.includes('customer support') || msg.includes('support')) return 'chatbot';
+  return 'default';
+}
+
+function buildStackHTML(stackData) {
+  let html = `<div class="stack-response">
+    <div class="stack-heading">Recommended Stack</div>
+    <p class="stack-intro">${stackData.intro}</p>`;
+
+  for (const section of stackData.sections) {
+    html += `<div class="stack-section">
+      <div class="stack-section-label">${section.label}</div>
+      <div class="cards-row">`;
+
+    for (const card of section.cards) {
+      const tagClass = card.tag === 'free' ? 'tag-free' : card.tag === 'paid' ? 'tag-paid' : 'tag-freemium';
+      const tagLabel = card.tag.charAt(0).toUpperCase() + card.tag.slice(1);
+      const stars = '★'.repeat(Math.floor(parseFloat(card.rating))) + (parseFloat(card.rating) % 1 >= 0.5 ? '½' : '');
+      html += `<div class="tool-card fade-in" style="--card-accent:${card.accent}">
+        <div class="card-icon-row">
+          <div class="card-icon">${card.icon}</div>
+          <span class="card-tag ${tagClass}">${tagLabel}</span>
+        </div>
+        <div class="card-name">${card.name}</div>
+        <div class="card-desc">${card.desc}</div>
+        <div class="card-rating">
+          <span class="card-stars">${stars}</span>
+          <span class="card-rating-num">${card.rating}</span>
+        </div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+/* ═══════════════════════════════════════
+   MESSAGE FUNCTIONS
+═══════════════════════════════════════ */
+function hideWelcome() {
+  const ws = document.getElementById('welcomeScreen');
+  if (ws) { ws.style.display = 'none'; }
+}
+
+function appendMessage(content, role = 'ai', isHTML = false) {
+  messageCount++;
+  const chatInner = document.getElementById('chatInner');
+
+  const row = document.createElement('div');
+  row.className = `msg-row ${role}`;
+
+  if (role === 'ai') {
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'S';
+    row.appendChild(avatar);
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+
+  if (isHTML) {
+    bubble.innerHTML = content;
+  } else {
+    bubble.textContent = content;
+  }
+
+  row.appendChild(bubble);
+  chatInner.appendChild(row);
+  scrollToBottom();
+  return row;
+}
+
+function showTyping() {
+  const chatInner = document.getElementById('chatInner');
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  row.id = 'typingRow';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = 'S';
+  row.appendChild(avatar);
+
+  const indicator = document.createElement('div');
+  indicator.className = 'typing-indicator fade-in';
+  indicator.innerHTML = `
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+    <div class="typing-dot"></div>
+  `;
+  row.appendChild(indicator);
+  chatInner.appendChild(row);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const row = document.getElementById('typingRow');
+  if (row) row.remove();
+}
+
+function scrollToBottom() {
+  const chatArea = document.getElementById('chatArea');
+  setTimeout(() => { chatArea.scrollTop = chatArea.scrollHeight; }, 50);
+}
+
+/* ═══════════════════════════════════════
+   SEND MESSAGE
+═══════════════════════════════════════ */
+async function sendMessage() {
+  if (isTyping) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+
+  hideWelcome();
+  input.value = '';
+  autoResize(input);
+  isTyping = true;
+
+  // Animate send button
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.classList.add('sending');
+  setTimeout(() => sendBtn.classList.remove('sending'), 600);
+
+  // User message
+  appendMessage(text, 'user');
+
+  // AI thinking
+  showTyping();
+
+  // Simulate AI response delay
+  const delay = 1200 + Math.random() * 800;
+  await sleep(delay);
+
+  hideTyping();
+
+  // Build stack response
+  const stackType = detectStackType(text);
+  const stackData = stackDatabase[stackType];
+  const html = buildStackHTML(stackData);
+  appendMessage(html, 'ai', true);
+
+  isTyping = false;
+  input.focus();
+}
+
+function sendSuggestion(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+/* ═══════════════════════════════════════
+   INPUT HELPERS
+═══════════════════════════════════════ */
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function clearChat() {
+  const chatInner = document.getElementById('chatInner');
+  chatInner.innerHTML = '';
+  messageCount = 0;
+  isTyping = false;
+
+  // Rebuild welcome screen
+  const ws = document.createElement('div');
+  ws.className = 'welcome-screen';
+  ws.id = 'welcomeScreen';
+  ws.innerHTML = `
+    <div class="welcome-badge">
+      <span class="welcome-pill">NEW</span>
+      <div class="welcome-pulse"></div>
+      500+ AI Tools Indexed · Updated Daily
+    </div>
+    <h1 class="welcome-title">
+      Discover the Best<br>
+      <span class="w-accent">AI Tools</span><br>
+      for Your Projects
+    </h1>
+    <p class="welcome-sub">
+      Compare, evaluate, and generate production-ready AI stacks.<br>
+      Stop researching. Start shipping.
+    </p>
+    <div class="suggestions-grid">
+      <button class="suggestion-card" onclick="sendSuggestion('Build a SaaS dashboard with AI analytics')">
+        <div class="suggestion-icon">📊</div>
+        <div class="suggestion-text">SaaS dashboard with AI analytics</div>
+        <div class="suggestion-label">Full stack · AI</div>
+      </button>
+      <button class="suggestion-card" onclick="sendSuggestion('Create a mobile app with real-time AI features')">
+        <div class="suggestion-icon">📱</div>
+        <div class="suggestion-text">Mobile app with real-time AI</div>
+        <div class="suggestion-label">Mobile · AI</div>
+      </button>
+      <button class="suggestion-card" onclick="sendSuggestion('Build an e-commerce store with AI recommendations')">
+        <div class="suggestion-icon">🛒</div>
+        <div class="suggestion-text">E-commerce with AI recommendations</div>
+        <div class="suggestion-label">E-comm · ML</div>
+      </button>
+      <button class="suggestion-card" onclick="sendSuggestion('Create an AI chatbot for customer support')">
+        <div class="suggestion-icon">🤖</div>
+        <div class="suggestion-text">AI chatbot for customer support</div>
+        <div class="suggestion-label">NLP · Chatbot</div>
+      </button>
+    </div>
+  `;
+  chatInner.appendChild(ws);
+  document.getElementById('chat-input').focus();
+}
+
+function showMicFeedback(btn) {
+  const original = btn.innerHTML;
+  btn.style.color = 'var(--cyan)';
+  btn.style.borderColor = 'var(--border-glow)';
+  setTimeout(() => {
+    btn.style.color = '';
+    btn.style.borderColor = '';
+  }, 800);
+}
+
+// Focus input on load
+window.addEventListener('load', () => {
+  document.getElementById('chat-input').focus();
+});
+</script>
+</body>
+</html>

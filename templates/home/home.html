@@ -1,0 +1,484 @@
+{% extends 'home/base.html' %}
+{% block body %}
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-pill">NEW</span>
+      <div class="eyebrow-pulse"></div>
+      500+ AI Tools Indexed · Updated Daily
+    </div>
+    <h1 class="hero-h1">
+      Build Your<br>
+      <span class="line-gradient">Perfect AI</span><br>
+      <span class="line-outline">Tech Stack</span>
+    </h1>
+    <p class="hero-sub">
+      Discover, compare, and generate production-ready AI stacks.<br>
+      Stop researching. Start shipping.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary-hero" onclick="document.getElementById('generator').scrollIntoView({behavior:'smooth'})">Generate My Stack →</button>
+      <button class="btn-secondary-hero" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Explore Tools</button>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-avatars">
+        <div class="trust-avatar" style="background:linear-gradient(135deg,#4af0ff,#5b8fff)">JD</div>
+        <div class="trust-avatar" style="background:linear-gradient(135deg,#a259ff,#ff4da6)">SK</div>
+        <div class="trust-avatar" style="background:linear-gradient(135deg,#a3ff57,#4af0ff)">MR</div>
+        <div class="trust-avatar" style="background:linear-gradient(135deg,#ff7a2f,#ff4da6)">AL</div>
+      </div>
+      <div class="trust-text">Trusted by <strong>12,400+</strong> developers worldwide</div>
+    </div>
+    <div class="hero-stats-row">
+      <div class="hero-stat">
+        <div class="h-stat-num accent-cyan">12k+</div>
+        <div class="h-stat-label">Developers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="h-stat-num accent-lime">500+</div>
+        <div class="h-stat-label">AI Tools</div>
+      </div>
+      <div class="hero-stat">
+        <div class="h-stat-num accent-violet">98%</div>
+        <div class="h-stat-label">Satisfaction</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div id="hero3d">
+      <div class="float-chip c1">
+        <strong>Next.js 14</strong>
+        Frontend Layer
+        <span class="chip-tag" style="background:rgba(74,240,255,0.1);color:var(--cyan);border:1px solid rgba(74,240,255,0.2)">Recommended</span>
+      </div>
+      <div class="float-chip c2">
+        <strong>OpenAI / Claude</strong>
+        AI Integration
+        <span class="chip-tag" style="background:rgba(162,89,255,0.1);color:var(--violet);border:1px solid rgba(162,89,255,0.2)">Frontier</span>
+      </div>
+      <div class="float-chip c3">
+        <strong>Pinecone</strong>
+        Vector DB
+        <span class="chip-tag" style="background:rgba(163,255,87,0.1);color:var(--lime);border:1px solid rgba(163,255,87,0.2)">RAG-ready</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track-wrap">
+    <div class="marquee-track" id="marquee">
+      <div class="marquee-item"><div class="marquee-dot"></div>ChatGPT</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Claude 3.7</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Cursor</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Midjourney</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Vercel AI SDK</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>LangChain</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Supabase</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Replicate</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Hugging Face</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Pinecone</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Weaviate</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Anthropic API</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Gemini Pro</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Railway</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>ChatGPT</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Claude 3.7</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Cursor</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Midjourney</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Vercel AI SDK</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>LangChain</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Supabase</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Replicate</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Hugging Face</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Pinecone</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Weaviate</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Anthropic API</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Gemini Pro</div>
+      <div class="marquee-item"><div class="marquee-dot"></div>Railway</div>
+    </div>
+  </div>
+</div>
+
+<!-- STACK GENERATOR -->
+<section class="section" id="generator">
+  <div class="reveal">
+    <div class="section-eyebrow">Stack Generator</div>
+    <h2 class="section-title">Your <span class="grd">ideal stack</span><br><span class="dim">in seconds</span></h2>
+    <p class="section-desc">Tell us about your project. Our AI recommends the exact tools you need — no guesswork, no hours of research.</p>
+  </div>
+  <div class="generator-layout">
+    <div class="glass-panel gen-form-panel reveal">
+      <div class="gen-panel-title">Configure Your Stack</div>
+      <div class="gen-panel-sub">// Step 1 of 1 — Takes 10 seconds</div>
+      <div class="form-field">
+        <label class="field-label"><span>01.</span> Project Type</label>
+        <select class="field-select" id="project">
+          <option value="">Select project type...</option>
+          <option value="Website">Website / Landing Page</option>
+          <option value="Mobile App">Mobile App</option>
+          <option value="AI App">AI Application</option>
+          <option value="SaaS">SaaS Platform</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="field-label"><span>02.</span> Budget (USD)</label>
+        <input class="field-input" id="budget" placeholder="e.g. 5000" type="number">
+      </div>
+      <div class="form-field">
+        <label class="field-label"><span>03.</span> Experience Level</label>
+        <div class="exp-pills" id="expPills">
+          <div class="exp-pill active" data-val="Beginner" onclick="selectExp(this)">Beginner</div>
+          <div class="exp-pill" data-val="Intermediate" onclick="selectExp(this)">Intermediate</div>
+          <div class="exp-pill" data-val="Advanced" onclick="selectExp(this)">Advanced</div>
+        </div>
+      </div>
+      <button class="gen-btn" id="genBtn" onclick="generateStack()">⚡ Generate My Stack</button>
+      <div class="gen-loading" id="genLoading">
+        <div class="gen-spinner"></div>
+        Analyzing project requirements...
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="glass-panel gen-result-panel reveal">
+        <div id="resultContent">
+          <div class="result-empty-state">
+            <div class="empty-icon">⚡</div>
+            Select your project type<br>and click generate to see<br>your perfect AI stack.
+          </div>
+        </div>
+      </div>
+      <div class="gen-info-col reveal">
+        <div class="info-stat-grid">
+          <div class="info-stat-card"><div class="isc-num">500+</div><div class="isc-label">Tools catalogued</div></div>
+          <div class="info-stat-card"><div class="isc-num">24</div><div class="isc-label">Stack templates</div></div>
+        </div>
+        <div class="glass-panel info-text-card">
+          <div class="itc-title">Why use a curated stack?</div>
+          <div class="itc-body">Stop wasting hours comparing tools. Our AI-curated stacks are based on real developer usage data, budget constraints, and project requirements — so you can start building, not deciding.</div>
+        </div>
+        <div class="glass-panel info-text-card pro-tip-card">
+          <div class="ptc-label">// PRO TIP</div>
+          <div class="ptc-body">Match your stack to your experience. Beginners save 40+ hours by starting with managed services vs raw infrastructure.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI TOOLS -->
+<section class="section" id="tools" style="padding-top:0">
+  <div class="reveal">
+    <div class="section-eyebrow">Trending Now</div>
+    <h2 class="section-title">Top <span class="grd">AI Tools</span><br><span class="dim">this week</span></h2>
+  </div>
+  <div class="tools-grid">
+    <div class="tool-card reveal" style="--card-accent:rgba(74,240,255,0.6);--card-glow:rgba(74,240,255,0.06)">
+      <div class="tool-icon-wrap" style="background:rgba(74,240,255,0.1)">🤖</div>
+      <div class="tool-name">ChatGPT</div>
+      <div class="tool-category">AI Assistant</div>
+      <div class="tool-desc">The world's leading conversational AI for text generation, analysis, coding, and problem-solving.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.8</div><span class="tool-tag" style="background:rgba(74,240,255,0.08);color:var(--cyan);border:1px solid rgba(74,240,255,0.18)">Free tier</span></div>
+    </div>
+    <div class="tool-card reveal" style="--card-accent:rgba(163,255,87,0.6);--card-glow:rgba(163,255,87,0.05)">
+      <div class="tool-icon-wrap" style="background:rgba(163,255,87,0.1)">⚡</div>
+      <div class="tool-name">Claude</div>
+      <div class="tool-category">AI Reasoning</div>
+      <div class="tool-desc">Anthropic's frontier model excels at nuanced reasoning, long-context tasks, and accurate analysis.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.9</div><span class="tool-tag" style="background:rgba(163,255,87,0.08);color:var(--lime);border:1px solid rgba(163,255,87,0.18)">API</span></div>
+    </div>
+    <div class="tool-card reveal" style="--card-accent:rgba(162,89,255,0.6);--card-glow:rgba(162,89,255,0.06)">
+      <div class="tool-icon-wrap" style="background:rgba(162,89,255,0.1)">✦</div>
+      <div class="tool-name">Cursor</div>
+      <div class="tool-category">AI Coding</div>
+      <div class="tool-desc">The AI-native code editor trusted by 10k+ engineers. Tab completion, chat, and autonomous agents.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.9</div><span class="tool-tag" style="background:rgba(162,89,255,0.08);color:var(--violet);border:1px solid rgba(162,89,255,0.18)">Editor</span></div>
+    </div>
+    <div class="tool-card reveal" style="--card-accent:rgba(255,122,47,0.6);--card-glow:rgba(255,122,47,0.05)">
+      <div class="tool-icon-wrap" style="background:rgba(255,122,47,0.1)">🎨</div>
+      <div class="tool-name">Midjourney</div>
+      <div class="tool-category">AI Art</div>
+      <div class="tool-desc">Generate stunning, production-ready images with natural language prompts. Industry-leading quality.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.8</div><span class="tool-tag" style="background:rgba(255,122,47,0.08);color:var(--orange);border:1px solid rgba(255,122,47,0.18)">Paid</span></div>
+    </div>
+    <div class="tool-card reveal" style="--card-accent:rgba(52,211,153,0.6);--card-glow:rgba(52,211,153,0.05)">
+      <div class="tool-icon-wrap" style="background:rgba(52,211,153,0.1)">🔗</div>
+      <div class="tool-name">LangChain</div>
+      <div class="tool-category">AI Framework</div>
+      <div class="tool-desc">Build LLM-powered applications with composable chains, agents, and memory management.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.6</div><span class="tool-tag" style="background:rgba(52,211,153,0.08);color:#34d399;border:1px solid rgba(52,211,153,0.18)">Open source</span></div>
+    </div>
+    <div class="tool-card reveal" style="--card-accent:rgba(244,114,182,0.6);--card-glow:rgba(244,114,182,0.05)">
+      <div class="tool-icon-wrap" style="background:rgba(244,114,182,0.1)">🧠</div>
+      <div class="tool-name">Pinecone</div>
+      <div class="tool-category">Vector DB</div>
+      <div class="tool-desc">Fully managed vector database for semantic search, RAG pipelines, and AI-powered retrieval at scale.</div>
+      <div class="tool-footer"><div class="tool-rating"><span class="star">★</span> 4.7</div><span class="tool-tag" style="background:rgba(244,114,182,0.08);color:var(--pink);border:1px solid rgba(244,114,182,0.18)">Cloud</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" id="compare" style="padding-top:0">
+  <div class="reveal">
+    <div class="section-eyebrow">AI Tool Comparison</div>
+    <h2 class="section-title">Compare the <span class="grd">top models</span><br><span class="dim">side by side</span></h2>
+  </div>
+  <div class="compare-table reveal">
+    <div class="cmp-header">
+      <div class="cmp-header-cell">Feature</div>
+      <div class="cmp-header-cell"><div class="cmp-tool-name">ChatGPT</div><div class="cmp-tool-badge">OpenAI</div></div>
+      <div class="cmp-header-cell"><div class="cmp-tool-name">Claude</div><div class="cmp-tool-badge">Anthropic</div></div>
+      <div class="cmp-header-cell"><div class="cmp-tool-name">Gemini</div><div class="cmp-tool-badge">Google</div></div>
+      <div class="cmp-header-cell"><div class="cmp-tool-name">Llama 3</div><div class="cmp-tool-badge">Meta</div></div>
+    </div>
+    <div class="cmp-row"><div class="cmp-cell">Free Tier</div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">Context Window</div><div class="cmp-cell"><span class="cmp-partial">128K</span></div><div class="cmp-cell"><span class="cmp-partial">200K</span></div><div class="cmp-cell"><span class="cmp-partial">1M</span></div><div class="cmp-cell"><span class="cmp-partial">128K</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">Image Understanding</div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-cross">✗</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">Code Generation</div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">Self-Hostable</div><div class="cmp-cell"><span class="cmp-cross">✗</span></div><div class="cmp-cell"><span class="cmp-cross">✗</span></div><div class="cmp-cell"><span class="cmp-cross">✗</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">API Availability</div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div></div>
+    <div class="cmp-row"><div class="cmp-cell">Reasoning Mode</div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-check">✓</span></div><div class="cmp-cell"><span class="cmp-partial">Beta</span></div><div class="cmp-cell"><span class="cmp-cross">✗</span></div></div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard-section" id="dashboard">
+  <div class="reveal">
+    <div class="section-eyebrow">Developer Hub</div>
+    <h2 class="section-title">Your <span class="grd">workspace</span><br><span class="dim">always ready</span></h2>
+  </div>
+  <div class="dashboard-wrapper reveal">
+    <div class="db-sidebar">
+      <div class="db-sidebar-logo"><div class="db-logo-mark">A</div><div class="db-logo-text">AI Stack Hub</div></div>
+      <div class="db-section-label">Main Menu</div>
+      <div class="db-nav-item active"><span class="db-nav-icon">⬛</span> Overview</div>
+      <div class="db-nav-item"><span class="db-nav-icon">◈</span> Projects</div>
+      <div class="db-nav-item"><span class="db-nav-icon">◉</span> Clients</div>
+      <div class="db-nav-item"><span class="db-nav-icon">◎</span> Earnings</div>
+      <div class="db-nav-divider"></div>
+      <div class="db-section-label">Resources</div>
+      <div class="db-nav-item"><span class="db-nav-icon">◌</span> AI Tools</div>
+      <div class="db-nav-item"><span class="db-nav-icon">◇</span> Stacks</div>
+      <div class="db-nav-item"><span class="db-nav-icon">⊕</span> Settings</div>
+    </div>
+    <div class="db-content">
+      <div class="db-top-bar">
+        <div><div class="db-greeting">Good morning, Developer 👋</div><div class="db-date">March 2026 · Overview Dashboard</div></div>
+        <button class="btn-nav-primary" style="font-size:13px">+ New Project</button>
+      </div>
+      <div class="db-stats-row">
+        <div class="db-stat-card" style="--stat-color:var(--cyan)"><div class="db-stat-icon">📁</div><div class="db-stat-num">24</div><div class="db-stat-label">Active Projects</div><div class="db-stat-change up">↑ 4 this month</div></div>
+        <div class="db-stat-card" style="--stat-color:var(--lime)"><div class="db-stat-icon">💰</div><div class="db-stat-num" style="color:var(--lime)">$14.2k</div><div class="db-stat-label">Total Earnings</div><div class="db-stat-change up">↑ 18% vs last month</div></div>
+        <div class="db-stat-card" style="--stat-color:var(--violet)"><div class="db-stat-icon">👥</div><div class="db-stat-num" style="color:var(--violet)">18</div><div class="db-stat-label">Active Clients</div><div class="db-stat-change up">↑ 3 new</div></div>
+      </div>
+      <div class="db-chart-area">
+        <div class="chart-title-row">
+          <div><div class="chart-title">Monthly Revenue</div><div class="chart-subtitle">Sep 2025 – Mar 2026</div></div>
+          <div class="chart-value">$14,200</div>
+        </div>
+        <div class="chart-bars-wrap">
+          <div class="bar" style="height:35%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:45%"></div>
+          <div class="bar" style="height:70%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:80%"></div>
+          <div class="bar active" style="height:95%"></div>
+        </div>
+        <div class="chart-labels"><div class="chart-label">SEP</div><div class="chart-label">OCT</div><div class="chart-label">NOV</div><div class="chart-label">DEC</div><div class="chart-label">JAN</div><div class="chart-label">FEB</div><div class="chart-label">MAR</div></div>
+      </div>
+      <div class="db-bottom-row">
+        <div class="db-activity-panel">
+          <div class="dp-title">Recent Activity</div>
+          <div class="activity-row"><div class="act-dot" style="background:var(--cyan)"></div><div class="act-text">Stack generated for <strong>SaaS boilerplate</strong> project</div><div class="act-time">2m ago</div></div>
+          <div class="activity-row"><div class="act-dot" style="background:var(--lime)"></div><div class="act-text">New client <strong>@techcorp</strong> joined workspace</div><div class="act-time">1h ago</div></div>
+          <div class="activity-row"><div class="act-dot" style="background:var(--violet)"></div><div class="act-text">Cursor integration completed for <strong>Project Alpha</strong></div><div class="act-time">3h ago</div></div>
+        </div>
+        <div class="db-quick-panel">
+          <div class="dp-title">Quick Actions</div>
+          <button class="quick-btn"><span class="qb-icon">⚡</span> Generate New Stack</button>
+          <button class="quick-btn"><span class="qb-icon">🔍</span> Browse AI Tools</button>
+          <button class="quick-btn"><span class="qb-icon">📊</span> View Analytics</button>
+          <button class="quick-btn"><span class="qb-icon">📄</span> Export Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials" style="padding-top:0">
+  <div class="reveal">
+    <div class="section-eyebrow">Social Proof</div>
+    <h2 class="section-title">Loved by <span class="grd">developers</span><br><span class="dim">worldwide</span></h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote-icon">"</div>
+      <div class="testi-text">AI Stack Hub saved me 20 hours of research on my last project. The generated stack was exactly what I needed — production-ready from day one.</div>
+      <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#4af0ff,#5b8fff)">JD</div><div><div class="testi-name">James Davidson</div><div class="testi-role">Senior Engineer @ Stripe</div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote-icon">"</div>
+      <div class="testi-text">The comparison table alone is worth it. I can finally make tool decisions backed by data, not hype. The dashboard is a game-changer.</div>
+      <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#a259ff,#ff4da6)">SK</div><div><div class="testi-name">Sarah Kim</div><div class="testi-role">CTO @ BuildFast Labs</div></div></div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote-icon">"</div>
+      <div class="testi-text">As a solo founder, every hour counts. AI Stack Hub helps me choose the right tools without the analysis paralysis. Incredible product.</div>
+      <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#a3ff57,#4af0ff)">MR</div><div><div class="testi-name">Marco Reyes</div><div class="testi-role">Founder @ Launchpad AI</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community-section" id="community">
+  <div class="reveal">
+    <div class="section-eyebrow">Developer Community</div>
+    <h2 class="section-title">Built for builders,<br><span class="grd">by builders</span></h2>
+  </div>
+  <div class="community-inner">
+    <div class="community-stats-grid reveal">
+      <div class="comm-stat-card" style="--stat-c:var(--cyan);--stat-c2:var(--blue)"><div class="csc-num">12k+</div><div class="csc-label">Active developers</div></div>
+      <div class="comm-stat-card" style="--stat-c:var(--violet);--stat-c2:var(--pink)"><div class="csc-num">48k</div><div class="csc-label">Stacks generated</div></div>
+      <div class="comm-stat-card" style="--stat-c:var(--lime);--stat-c2:var(--cyan)"><div class="csc-num">500+</div><div class="csc-label">Tools indexed</div></div>
+      <div class="comm-stat-card" style="--stat-c:var(--orange);--stat-c2:var(--pink)"><div class="csc-num">98%</div><div class="csc-label">Satisfaction rate</div></div>
+    </div>
+    <div class="community-text-col reveal">
+      <div class="comm-feature"><div class="cf-icon" style="background:rgba(74,240,255,0.08)">💬</div><div><div class="cf-title">Real Developer Discussions</div><div class="cf-desc">Join thousands of engineers debating the best tools, sharing war stories, and building together in our Discord.</div></div></div>
+      <div class="comm-feature"><div class="cf-icon" style="background:rgba(162,89,255,0.08)">🏆</div><div><div class="cf-title">Community Stack Showcase</div><div class="cf-desc">Submit your stack, get voted on by the community, and inspire the next generation of AI-powered products.</div></div></div>
+      <div class="comm-feature"><div class="cf-icon" style="background:rgba(163,255,87,0.08)">📖</div><div><div class="cf-title">Open Source Contributions</div><div class="cf-desc">Everything we build is open to the community. Contribute tools, vote on rankings, and shape the platform.</div></div></div>
+      <button class="btn-primary-hero" style="width:fit-content;margin-top:8px">Join the Community →</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="padding-top:0">
+  <div class="reveal" style="text-align:center">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">Simple, <span class="grd">transparent</span> pricing</h2>
+    <p class="section-desc" style="margin:0 auto">No hidden fees. No vendor lock-in. Cancel anytime.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-tier">Free</div>
+      <div class="price-amount"><span class="price-currency">$</span>0<span class="price-period">/mo</span></div>
+      <div class="price-desc">Perfect for exploring and personal projects.</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li><span class="pf-check">✓</span> 5 stack generations / month</li>
+        <li><span class="pf-check">✓</span> Access to 100 tools</li>
+        <li><span class="pf-check">✓</span> Basic comparisons</li>
+        <li><span class="pf-check">✓</span> Community access</li>
+        <li style="color:var(--muted)"><span style="color:var(--muted)">—</span> <span class="pf-off">Advanced analytics</span></li>
+        <li style="color:var(--muted)"><span style="color:var(--muted)">—</span> <span class="pf-off">API access</span></li>
+      </ul>
+      <button class="btn-plan btn-plan-outline">Get started free</button>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-tier">Pro</div>
+      <div class="price-amount"><span class="price-currency">$</span>29<span class="price-period">/mo</span></div>
+      <div class="price-desc">For serious developers and small teams shipping fast.</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li><span class="pf-check">✓</span> Unlimited stack generations</li>
+        <li><span class="pf-check">✓</span> Full tool index (500+)</li>
+        <li><span class="pf-check">✓</span> Advanced comparisons</li>
+        <li><span class="pf-check">✓</span> Priority support</li>
+        <li><span class="pf-check">✓</span> Advanced analytics</li>
+        <li style="color:var(--muted)"><span style="color:var(--muted)">—</span> <span class="pf-off">API access</span></li>
+      </ul>
+      <button class="btn-plan btn-plan-fill">Start Pro trial</button>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-tier">Team</div>
+      <div class="price-amount"><span class="price-currency">$</span>99<span class="price-period">/mo</span></div>
+      <div class="price-desc">For fast-moving teams building AI products at scale.</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        <li><span class="pf-check">✓</span> Everything in Pro</li>
+        <li><span class="pf-check">✓</span> Up to 10 team members</li>
+        <li><span class="pf-check">✓</span> Shared workspaces</li>
+        <li><span class="pf-check">✓</span> REST API access</li>
+        <li><span class="pf-check">✓</span> SSO & admin controls</li>
+        <li><span class="pf-check">✓</span> Custom integrations</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline">Start Team trial</button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section" id="newsletter">
+  <div class="newsletter-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center">Stay in the loop</div>
+    <h2 class="section-title" style="text-align:center">The best AI tools,<br><span class="grd">weekly</span></h2>
+    <p style="font-size:14px;color:var(--text2);font-family:var(--font-mono);line-height:1.7;margin-top:8px">Every week, we curate the top new AI tools, framework updates,<br>and developer insights. No spam, ever.</p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" placeholder="your@email.com" type="email" id="newsletterEmail">
+      <button class="btn-subscribe">Subscribe →</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);font-family:var(--font-mono);margin-top:14px">Joined by 4,200+ developers · Unsubscribe anytime</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-inner reveal">
+    <div class="cta-kicker"><div class="eyebrow-pulse"></div>Ready to build something incredible?</div>
+    <h2 class="cta-title">Your <span class="cta-grd">perfect stack</span><br>is one click away</h2>
+    <p class="cta-desc">Join 12,000+ developers who've stopped guessing and<br>started building with the right AI tools.</p>
+    <div class="cta-actions">
+      <button class="btn-primary-hero" style="padding:18px 40px;font-size:16px">Generate My Stack — Free →</button>
+      <button class="btn-secondary-hero" style="padding:17px 36px;font-size:16px">Browse AI Tools</button>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT BY OUR AI -->
+<section class="built-section" id="our-project">
+  <div class="built-section-bg-glow"></div>
+  <div class="built-header reveal">
+    <div class="built-kicker"><span class="built-kicker-dot"></span>The Team</div>
+    <h2 class="built-title">Built by <span class="bt-grd">Our AI</span></h2>
+    <p class="built-sub">The developers who turned an idea into a platform.</p>
+  </div>
+  <div class="built-divider">
+    <div class="built-divider-line"></div>
+    <span class="built-divider-gem">✦</span>
+    <div class="built-divider-line"></div>
+  </div>
+  <div class="built-cards built-cards-single">
+    <div class="creator-card card-sudhanshu reveal">
+      <div class="card-top-strip"></div>
+      <div class="cc-role"><span class="cc-role-dot"></span>Backend Engineer</div>
+      <div class="cc-profile">
+        <div class="cc-avatar-wrap"><div class="cc-avatar">ST</div><span class="cc-status"></span></div>
+        <div><div class="cc-name">Sudhanshu Thakur</div><div class="cc-title">Django · Python · REST API</div></div>
+      </div>
+      <p class="cc-bio">The engine under the hood. Architected the robust Django backend, REST APIs, and the data layer that keeps AI Stack Hub running at scale — clean, fast, and reliable.</p>
+      <div class="cc-tags">
+        <span class="cc-tag">Django</span><span class="cc-tag">Python</span><span class="cc-tag">REST API</span><span class="cc-tag">PostgreSQL</span><span class="cc-tag">Docker</span>
+      </div>
+      <div class="cc-stats">
+        <div class="cc-stat"><div class="cc-stat-num">15+</div><div class="cc-stat-label">Projects</div></div>
+        <div class="cc-stat"><div class="cc-stat-num">800+</div><div class="cc-stat-label">Commits</div></div>
+        <div class="cc-stat"><div class="cc-stat-num">4.9★</div><div class="cc-stat-label">Rating</div></div>
+      </div>
+      <a class="cc-btn" href="https://www.linkedin.com/posts/sudhanshu-thakur_webdevelopment-learninginpublic-pythonjourney-activity-7429773612909412352-in1L?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGTEnFMBngT4ylewCkZMNwhaXAIBEW2X32o" target="_blank" rel="noopener noreferrer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn Profile<span class="cc-btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="built-footer">
+    <p class="built-footer-text"><span class="bft-line"></span>Made with ❤️ for the Angaar Batch<span class="bft-line r"></span></p>
+  </div>
+</section>
+{% endblock %}
