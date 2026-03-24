@@ -73,56 +73,33 @@
     <p class="sec-sub font-body text-sm mb-8 reveal">Most loved tools by developers this week</p>
 
     <div class="flex gap-5 overflow-x-auto scroll-hide pb-2 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible">
-
+      {% for trend in trending %}
       <!-- Card 1 -->
       <div class="glow-border p-5 shrink-0 w-72 sm:w-auto reveal">
         <div class="flex items-start justify-between mb-3">
-          <div class="w-10 h-10 rounded-xl t1-icon flex items-center justify-center font-display font-extrabold text-lg">G</div>
-          <span class="badge-free text-[11px] font-bold px-2.5 py-0.5 rounded-full font-display">Free</span>
+          <div class="w-14 h-14 rounded-xl overflow-hidden border"> 
+          {% if trend.img %}
+          <img src="{{ trend.img.url }}" class="w-full h-full object-cover">
+          {% else %}
+            <img src="https://ui-avatars.com/api/?name={{ trend.name }}"
+                class="w-full h-full object-cover">
+          {% endif %}</div>
+          <span class=" badge-free text-[11px] font-bold px-2.5 py-0.5 rounded-full font-display">{{ trend.pricing }}</span>
         </div>
-        <h3 class="font-display font-bold text-base card-title mb-1">GitHub Copilot</h3>
-        <p class="text-xs card-desc font-body mb-3 leading-relaxed">AI pair programmer that suggests code in real-time inside your editor.</p>
-        <div class="flex items-center gap-1 mb-4"><span class="star-filled text-sm">★★★★★</span><span class="text-xs card-rating-num font-body ml-1">4.9</span></div>
-        <button class="btn-primary ripple w-full py-2 rounded-xl font-display font-bold text-xs">View Tool</button>
+        <h3 class="font-display font-bold text-base card-title mb-1">{{ trend.name }}</h3>
+        <p class="text-xs card-title font-body mb-3 leading-relaxed">{{ trend.about }}</p>
+        <div class="flex items-center gap-1 mb-4"><span class="star-filled text-sm">
+          {% for a in "12345" %}
+              {% if forloop.counter <= trend.rating %}
+                  ★
+              {% else %}
+                  ☆
+              {% endif %}
+          {% endfor %}
+        </span><span class="text-xs card-title font-body ml-1">{{ trend.rating }}</span></div>
+        <a href="{{ trend.url }}" class="btn-primary ripple w-full py-2 px-4 rounded-xl font-display font-bold text-xs">View Tool</a>
       </div>
-
-      <!-- Card 2 -->
-      <div class="glow-border p-5 shrink-0 w-72 sm:w-auto reveal">
-        <div class="flex items-start justify-between mb-3">
-          <div class="w-10 h-10 rounded-xl t2-icon flex items-center justify-center font-display font-extrabold text-lg">V</div>
-          <span class="badge-paid text-[11px] font-bold px-2.5 py-0.5 rounded-full font-display">Paid</span>
-        </div>
-        <h3 class="font-display font-bold text-base card-title mb-1">Vercel AI SDK</h3>
-        <p class="text-xs card-desc font-body mb-3 leading-relaxed">Build AI-powered streaming apps with Next.js and the Edge runtime.</p>
-        <div class="flex items-center gap-1 mb-4"><span class="star-filled text-sm">★★★★★</span><span class="text-xs card-rating-num font-body ml-1">4.8</span></div>
-        <button class="btn-primary ripple w-full py-2 rounded-xl font-display font-bold text-xs">View Tool</button>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="glow-border p-5 shrink-0 w-72 sm:w-auto reveal">
-        <div class="flex items-start justify-between mb-3">
-          <div class="w-10 h-10 rounded-xl t3-icon flex items-center justify-center font-display font-extrabold text-lg">L</div>
-          <span class="badge-freemium text-[11px] font-bold px-2.5 py-0.5 rounded-full font-display">Freemium</span>
-        </div>
-        <h3 class="font-display font-bold text-base card-title mb-1">LangChain</h3>
-        <p class="text-xs card-desc font-body mb-3 leading-relaxed">Framework for building LLM-powered apps with chains, agents & memory.</p>
-        <div class="flex items-center gap-1 mb-4"><span class="star-filled text-sm">★★★★</span><span class="star-empty text-sm">★</span><span class="text-xs card-rating-num font-body ml-1">4.7</span></div>
-        <button class="btn-primary ripple w-full py-2 rounded-xl font-display font-bold text-xs">View Tool</button>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="glow-border p-5 shrink-0 w-72 sm:w-auto reveal">
-        <div class="flex items-start justify-between mb-3">
-          <div class="w-10 h-10 rounded-xl t4-icon flex items-center justify-center font-display font-extrabold text-lg">M</div>
-          <span class="badge-free text-[11px] font-bold px-2.5 py-0.5 rounded-full font-display">Free</span>
-        </div>
-        <h3 class="font-display font-bold text-base card-title mb-1">Mistral AI</h3>
-        <p class="text-xs card-desc font-body mb-3 leading-relaxed">Open-source frontier language models beating GPT-4 on benchmarks.</p>
-        <div class="flex items-center gap-1 mb-4"><span class="star-filled text-sm">★★★★★</span><span class="text-xs card-rating-num font-body ml-1">4.9</span></div>
-        <button class="btn-primary ripple w-full py-2 rounded-xl font-display font-bold text-xs">View Tool</button>
-      </div>
-    </div>
-  </div>
+      {% endfor %}
 </section>
 
 <!-- ===========================
@@ -193,13 +170,39 @@
     <div class="mb-14 category-section" data-category="frontend">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">⚛️ Frontend AI Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">V</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">v0 by Vercel</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Generate UI components from text prompts using shadcn/ui and Tailwind.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">F</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Framer AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-powered website builder that turns prompts into production-ready sites.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-display font-bold text-sm shadow">B</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Builder.io</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Drag-and-drop CMS that auto-generates React/Vue code with AI assistance.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.5</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-cyan-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">W</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Webflow AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">No-code builder enhanced with AI copy generation and layout suggestions.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for front in frontend %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ front.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ front.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if front.pricing == 'Free' %}
+                    badge-free
+                {% elif front.pricing == 'Paid' %}
+                    badge-paid
+                {% elif front.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ front.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ front.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ front.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= front.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ front.rating }}</span></div>
+            <a href="{{ front.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -207,13 +210,39 @@
     <div class="mb-14 category-section" data-category="backend">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">⚙️ Backend AI Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">S</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Supabase AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Postgres + pgvector backend with built-in AI vector search and Edge Functions.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white font-display font-bold text-sm shadow">F</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Firebase Genkit</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Google's open-source framework for building AI-enabled backend flows in Node.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">R</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Railway AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Deploy AI backends instantly with auto-scaling and GitHub CI/CD integration.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-green-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">N</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Neon Postgres</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Serverless Postgres with branching for AI app development and testing.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for back in backend %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if back.img %}
+                <img src="{{ back.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ back.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if back.pricing == 'Free' %}
+                    badge-free
+                {% elif back.pricing == 'Paid' %}
+                    badge-paid
+                {% elif back.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ back.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ back.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ back.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= back.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ back.rating }}</span></div>
+            <a href="{{ back.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -221,13 +250,39 @@
     <div class="mb-14 category-section" data-category="database">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">🗄️ Database AI Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">P</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Pinecone</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Fully managed vector database built for AI similarity search at scale.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">W</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Weaviate</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Open-source vector DB with multi-modal search and GraphQL API support.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">C</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Chroma DB</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Lightweight open-source embedding database for local and cloud AI apps.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">Q</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Qdrant</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">High-performance vector search engine built with Rust for production RAG.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for data in database %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ data.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ data.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if data.pricing == 'Free' %}
+                    badge-free
+                {% elif data.pricing == 'Paid' %}
+                    badge-paid
+                {% elif data.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ data.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ data.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ data.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= data.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ data.rating }}</span></div>
+            <a href="{{ data.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -235,13 +290,39 @@
     <div class="mb-14 category-section" data-category="chatbots">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">🤖 AI Chatbots & Models</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-white font-display font-bold text-sm shadow">C</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">ChatGPT</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">OpenAI's flagship conversational AI powering millions of apps worldwide.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">C</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Claude</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Anthropic's safe, helpful AI with exceptional reasoning and 200K context window.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-400 to-blue-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">G</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Gemini</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Google's multimodal AI with deep Workspace and Search integration.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-500 to-slate-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">L</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Llama 3</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Meta's open-source LLM for local and self-hosted AI deployments.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for chatbot in ai_chatbot %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ chatbot.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ chatbot.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if chatbot.pricing == 'Free' %}
+                    badge-free
+                {% elif chatbot.pricing == 'Paid' %}
+                    badge-paid
+                {% elif chatbot.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ chatbot.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ chatbot.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ chatbot.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= chatbot.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ chatbot.rating }}</span></div>
+            <a href="{{ chatbot.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -249,13 +330,39 @@
     <div class="mb-14 category-section" data-category="code">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">💻 Code Generation Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">C</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Cursor AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-first code editor with codebase-aware chat and one-shot edits across files.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-violet-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">T</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Tabnine</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Privacy-focused AI code assistant that runs locally with zero data sharing.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-rose-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">A</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Amazon Q Dev</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AWS-integrated AI assistant for code generation, debugging, and migration.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.5</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">R</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Replit AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Browser-based AI coding platform for building and deploying full apps instantly.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for code_gen in code_generation %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ code_gen.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ code_gen.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if code_gen.pricing == 'Free' %}
+                    badge-free
+                {% elif code_gen.pricing == 'Paid' %}
+                    badge-paid
+                {% elif code_gen.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ code_gen.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ code_gen.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ code_gen.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= code_gen.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ code_gen.rating }}</span></div>
+            <a href="{{ code_gen.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -263,13 +370,39 @@
     <div class="mb-14 category-section" data-category="design">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">🎨 UI/UX Design AI Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-400 to-fuchsia-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">F</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Figma AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-powered design features inside Figma: auto-layouts, rename layers, fill designs.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">U</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Uizard</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Turn screenshots or sketches into editable UI designs using AI in seconds.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-display font-bold text-sm shadow">M</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Midjourney</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Generate stunning UI illustrations, icons, and concept art from text prompts.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-400 to-indigo-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">G</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Galileo AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Generate high-fidelity UI designs from natural language descriptions instantly.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for ui_ux in ui_ux_design %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ ui_ux.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ ui_ux.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if ui_ux.pricing == 'Free' %}
+                    badge-free
+                {% elif ui_ux.pricing == 'Paid' %}
+                    badge-paid
+                {% elif ui_ux.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ ui_ux.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ ui_ux.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ ui_ux.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= ui_ux.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ ui_ux.rating }}</span></div>
+            <a href="{{ ui_ux.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -277,13 +410,39 @@
     <div class="mb-14 category-section" data-category="devops">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">🚀 DevOps & Deployment Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-400 to-slate-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">V</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Vercel</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Zero-config CI/CD and edge deployments for AI-powered Next.js applications.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">D</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Docker AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-assisted containerization with auto Dockerfile generation and optimization.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">R</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Render AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-suggested resource allocation and auto-scaling for cloud deployments.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-lime-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">G</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">GitHub Actions AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Copilot-powered CI/CD pipeline generation and workflow optimization.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for devops in devops_deployment %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ devops.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ devops.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if devops.pricing == 'Free' %}
+                    badge-free
+                {% elif devops.pricing == 'Paid' %}
+                    badge-paid
+                {% elif devops.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ devops.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ devops.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ devops.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= devops.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ devops.rating }}</span></div>
+            <a href="{{ devops.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -291,13 +450,39 @@
     <div class="mb-14 category-section" data-category="testing">
       <h3 class="font-display font-bold text-xl mb-6 reveal section-heading sec-title">🛡️ Testing & Security Tools</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 tools-grid">
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">D</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Devin AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Autonomous AI software engineer that writes, tests, and debugs full code.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.7</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-rose-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">S</div><span class="badge-paid text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Paid</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Snyk AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-powered security scanning to detect and auto-fix vulnerabilities in code.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.9</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-green-700 flex items-center justify-center text-white font-display font-bold text-sm shadow">C</div><span class="badge-freemium text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Freemium</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Checkmarx AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">Static application security testing with AI-suggested code remediation steps.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★</span><span class="star-empty text-xs">★</span><span class="text-[10px] card-rating-num ml-1">4.6</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
-
-        <div class="glass-card rounded-2xl p-5 reveal tool-card"><div class="flex items-start justify-between mb-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">P</div><span class="badge-free text-[10px] font-bold px-2 py-0.5 rounded-full font-display">Free</span></div><h4 class="font-display font-bold text-sm card-title mb-1">Playwright AI</h4><p class="text-[11px] card-desc font-body mb-3 leading-relaxed">AI-assisted end-to-end browser testing with automatic test generation.</p><div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">★★★★★</span><span class="text-[10px] card-rating-num ml-1">4.8</span></div><button class="btn-outline-inner ripple w-full py-1.5 rounded-xl font-display font-semibold text-[11px]">View Tool</button></div>
+        {% for testing in testing_security %}
+        <div class="glass-card rounded-2xl p-5 reveal tool-card">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% if trend.img %}
+                <img src="{{ testing.img.url }}" class="w-full h-full object-cover">
+              {% else %}
+                <img src="https://ui-avatars.com/api/?name={{ testing.name }}"
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-display font-bold text-sm shadow">
+              {% endif %}</div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-display
+                {% if testing.pricing == 'Free' %}
+                    badge-free
+                {% elif testing.pricing == 'Paid' %}
+                    badge-paid
+                {% elif testing.pricing == 'Freemium' %}
+                    badge-freemium
+                {% endif %}
+                ">{{ testing.pricing }}</span>
+          </div><h4 class="font-display font-bold text-sm card-title mb-1">{{ testing.name }}</h4>
+          <p class="text-[11px] card-desc font-body mb-3 leading-relaxed">{{ testing.about }}</p>
+          <div class="flex items-center gap-1 mb-3"><span class="star-filled text-xs">
+            {% for a in "12345" %}
+              {% if forloop.counter <= testing.rating %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}</span>
+            <span class="text-[10px] card-rating-num ml-1">{{ testing.rating }}</span></div>
+            <a href="{{ testing.url }}" class="btn-outline-inner ripple w-full py-1.5 px-10 rounded-xl font-display font-semibold text-[11px]">View Tool</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
 
